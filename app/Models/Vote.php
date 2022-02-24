@@ -1,0 +1,35 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+class Vote extends Model
+{
+    use HasFactory;
+
+    protected $fillable = [
+        'slug',
+        'user_id',
+        'item_id'
+    ];
+
+    protected static function boot() 
+    {
+        parent::boot();
+        static::creating(function($vote) {
+            $vote->slug = 'vote-'.rand().$vote->id.time();
+        });
+    }
+
+    public function user()
+    {
+        $this->belongsTo(User::class, 'user_id');
+    }
+
+    public function item()
+    {
+        return $this->belongsTo(Item::class, 'item_id');
+    }
+}
