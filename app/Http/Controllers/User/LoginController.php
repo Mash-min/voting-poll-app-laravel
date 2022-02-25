@@ -15,8 +15,8 @@ class LoginController extends Controller
             'password' => 'required'
         ]);
 
-        if(!auth()->attempt($request->only('username', 'password'))) {
-            return response()->json(['message' => 'Invalid user credentials']);
+        if(!auth()->attempt($request->only('username', 'password'), $request->remmember)) {
+            return response()->json(['message' => 'Invalid user credentials'], 422);
         }
 
         $user = User::where('username', $request->username)->first();
