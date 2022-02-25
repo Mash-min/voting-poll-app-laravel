@@ -15,7 +15,7 @@ class VotesController extends Controller
                                            ->where('poll_id', $request->poll_id)
                                            ->delete();
         $vote =  $request->user()->votes()->create($request->all());
-        $poll = Poll::with('items.votes')->findOrFail($request->poll_id);
+        $poll = Poll::with('items.votes')->with('user')->findOrFail($request->poll_id);
         return response()->json([
             'message' => 'Vote added', 
             'vote' => $vote,
