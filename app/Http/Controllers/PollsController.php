@@ -35,7 +35,7 @@ class PollsController extends Controller
 
     public function polls()
     {
-        $polls = Poll::orderBy('created_at', 'DESC')->with('items.votes')->paginate(5);
+        $polls = Poll::orderBy('created_at', 'DESC')->with('items.votes')->with('user')->paginate(5);
         return response()->json(['polls' => $polls]);
     }
 
